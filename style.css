@@ -29,30 +29,50 @@ h1 {
 	color: rgb(255, 56, 56);
 	letter-spacing: 2vmin;
 	height: 15vmin;
-	font-size: 8vmin;
+	font-size: 11vmin;
 	line-height: 15vmin;
 }
 #output-area {
 	background-color: rgb(207, 207, 207);
-	width: 100%;
-	height: 30%;
+	width: 94%;
+	padding: 5vmin 3%;
+	height: 15vmin;
 	margin-bottom: 1.5vmin;
 	box-shadow: inset 0 0 2vmin 2vmin black;
-}
-#input-area {
-	border-radius: 2vmin;
-	width: 100%;
-	height: 10%;
+	overflow: hidden;
+	text-align: left;
+	line-height: 15vmin;
+	font-size: 10vmin;
 }
 #user-input {
 	resize: none;
 	border-radius: 2vmin;
 	padding: 4%;
 	width: 90%;
-	height: 100%;
+	height: 10%;
 	font-size: 8vmin;
 	border: none;
 }
 #user-input:focus {
 	outline: none;
+}
+.output-word {
+	margin-right: 3vmin;
+}
+#wpm-range {
+	margin: 3% 5%;
+	border-radius: 5vmin;
+	background-color: red;
+	width: 90%;
+	height: 5%;
+	box-shadow: inset 0 0 2vmin 1vmin black;
+}
+#wpm-pointer {
+	position: relative;
+	left: 40%;
+	width: 2%;
+	height: 100%;
+	background-color: black;
+	box-shadow: inset 0 0 0.6vmin 0.1vmin rgb(170, 170, 170);
+	border-radius: 5vmin;
 }
