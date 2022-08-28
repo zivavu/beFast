@@ -1,25 +1,28 @@
 import { newWordsGenerator } from './wordsToDom.js';
-
+import { passCorectWords, startWpmTicking } from './wpmMeater.js';
 const textAreaNode = document.getElementById('user-input');
 const outputArea = document.getElementById('output-area');
 
-let randomWords = newWordsGenerator();
-let wordCounter = 0;
+export let randomWords = newWordsGenerator();
 
 startTypeChecking();
 function startTypeChecking() {
-	textAreaNode.addEventListener('input', (e) => {
-		let currentWord = randomWords[wordCounter];
+	let correctWords = 0,
+		wrongWords = 0;
 
+	textAreaNode.addEventListener('input', startWpmTicking, { once: true });
+
+	textAreaNode.addEventListener('input', (e) => {
+		let currentWord = randomWords[0];
 		if (
 			currentWord.match(e.target.value) &&
-			e.target.value[0] == currentWord[wordCounter]
+			e.target.value[0] == currentWord[0]
 		) {
 			e.target.style.color = 'black';
-			console.log('yup');
+			outputArea.firstChild.style.color = 'green';
 		} else {
 			e.target.style.color = 'red';
-			console.log('nope');
+			outputArea.firstChild.style.color = 'red';
 		}
 	});
 	document.body.onkeydown = function (e) {
@@ -27,7 +30,9 @@ function startTypeChecking() {
 			e.preventDefault();
 			randomWords = randomWords.slice(1);
 			textAreaNode.value = '';
+			if (outputArea.firstChild.style.color == 'green') correctWords++;
 			firstChildPop();
+			passCorectWords(correctWords);
 		}
 	};
 }
