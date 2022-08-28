@@ -2,6 +2,7 @@ import { newWordsGenerator } from './wordsToDom.js';
 import { passCorectWords, startWpmTicking } from './wpmMeater.js';
 const textAreaNode = document.getElementById('user-input');
 const outputArea = document.getElementById('output-area');
+const title = document.getElementById('title');
 
 export let randomWords = newWordsGenerator();
 
@@ -28,14 +29,26 @@ function startTypeChecking() {
 	document.body.onkeydown = function (e) {
 		if (e.code == 'Space' || e.code == 'Enter') {
 			e.preventDefault();
+			if (
+				outputArea.firstChild.style.color == 'green' &&
+				textAreaNode.value.length == randomWords[0].length
+			) {
+				correctWords++;
+			} else animateWrongWord();
 			randomWords = randomWords.slice(1);
 			textAreaNode.value = '';
-			if (outputArea.firstChild.style.color == 'green') correctWords++;
+
 			firstChildPop();
 			passCorectWords(correctWords);
 		}
 	};
 }
+
 function firstChildPop() {
 	outputArea.removeChild(outputArea.firstChild);
+}
+
+function animateWrongWord() {
+	title.style.animation = 'titleFlash 0.5s linear';
+	setTimeout(() => (title.style.animation = ''), 500);
 }
