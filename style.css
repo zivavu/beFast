@@ -23,14 +23,14 @@ header-container {
 }
 h1 {
 	box-shadow: inset 0px 0px 2vmin 1.2vmin rgb(7, 7, 7);
-	text-shadow: 0 0 1vmin rgb(255, 42, 42);
+	text-shadow: 0 0 1.2vmin rgb(255, 42, 42);
 	font-weight: 700;
 	text-decoration: underline;
-	color: rgb(255, 56, 56);
-	letter-spacing: 2vmin;
-	height: 15vmin;
-	font-size: 11vmin;
-	line-height: 15vmin;
+	color: rgb(224, 0, 0);
+	letter-spacing: 5vmin;
+	height: 20vmin;
+	font-size: 13vmin;
+	line-height: 20vmin;
 }
 #output-area {
 	background-color: rgb(207, 207, 207);
@@ -38,7 +38,7 @@ h1 {
 	padding: 5vmin 3%;
 	height: 15vmin;
 	margin-bottom: 1.5vmin;
-	box-shadow: inset 0 0 2vmin 2vmin black;
+	box-shadow: inset 0 0 2vmin 2vmin black, 0 4vmin 4vmin -1vmin black;
 	overflow: hidden;
 	text-align: left;
 	line-height: 15vmin;
@@ -52,6 +52,7 @@ h1 {
 	height: 10%;
 	font-size: 8vmin;
 	border: none;
+	box-shadow: inset 0 0 2.5vmin 1.5vmin black;
 }
 #user-input:focus {
 	outline: none;
@@ -60,7 +61,7 @@ h1 {
 	margin-right: 3vmin;
 }
 #wpm-range {
-	margin: 3% 5%;
+	margin: 1% 5%;
 	border-radius: 5vmin;
 	background-color: red;
 	width: 90%;
