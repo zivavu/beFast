@@ -48,16 +48,20 @@ header-container {
 	}
 }
 #output-area {
+	display: flex;
+	flex-wrap: wrap;
+	overflow: hidden;
 	background-color: rgb(207, 207, 207);
 	width: 94%;
 	padding: 5vmin 3%;
-	height: 15vmin;
+	height: 18vmin;
 	margin-bottom: 1.5vmin;
 	box-shadow: inset 0 0 2vmin 2vmin black, 0 4vmin 4vmin -1vmin black;
-	overflow: hidden;
-	text-align: left;
-	line-height: 15vmin;
-	font-size: 10vmin;
+	line-height: 11vmin;
+	font-size: 11vmin;
+}
+.output-word {
+	margin-right: 3vmin;
 }
 #user-input {
 	resize: none;
@@ -71,9 +75,6 @@ header-container {
 }
 #user-input:focus {
 	outline: none;
-}
-.output-word {
-	margin-right: 3vmin;
 }
 #wpm-range {
 	margin: 1% 5%;
@@ -97,7 +98,8 @@ header-container {
 	height: 4vmin;
 	position: relative;
 	top: 110%;
-	right: 50%;
+	left: 50%;
+	transform: translateX(-50%);
 	background-color: rgb(0, 0, 0);
 	box-shadow: 0 0 1vmin 0.5vmin rgb(0, 0, 0);
 	color: white;

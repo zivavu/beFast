@@ -1,5 +1,5 @@
 import { newWordsGenerator } from './wordsToDom.js';
-import { passCorectWords, startWpmTicking } from './wpmMeater.js';
+import { passCorectWords, wpmTicking } from './wpmMeater.js';
 const textAreaNode = document.getElementById('user-input');
 const outputArea = document.getElementById('output-area');
 const title = document.getElementById('title');
@@ -11,7 +11,7 @@ function startTypeChecking() {
 	let correctWords = 0,
 		wrongWords = 0;
 
-	textAreaNode.addEventListener('input', startWpmTicking, { once: true });
+	textAreaNode.addEventListener('input', wpmTicking, { once: true });
 
 	textAreaNode.addEventListener('input', (e) => {
 		let currentWord = randomWords[0];
@@ -35,9 +35,12 @@ function startTypeChecking() {
 			) {
 				correctWords++;
 			} else animateWrongWord();
+
 			randomWords = randomWords.slice(1);
 			textAreaNode.value = '';
 
+			if (!randomWords[0]) wpmTicking(false);
+			console.log(randomWords);
 			firstChildPop();
 			passCorectWords(correctWords);
 		}
