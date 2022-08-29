@@ -24,7 +24,7 @@ header-container {
 #title {
 	font-weight: Montserrat;
 	box-shadow: inset 0px 0px 2vmin 1.2vmin rgb(7, 7, 7);
-	text-shadow: 0 0 1.2vmin rgb(255, 42, 42);
+	text-shadow: 0 0 0.8vmin rgb(255, 42, 42);
 	font-weight: 700;
 	text-decoration: underline;
 	color: rgb(224, 0, 0);
@@ -35,30 +35,41 @@ header-container {
 }
 @keyframes titleFlash {
 	0% {
-		text-shadow: 0 0 1.2vmin rgb(255, 42, 42);
-		color: rgb(244, 0, 0);
+		text-shadow: 0 0 0.8vmin rgb(255, 42, 42);
+		color: rgb(224, 0, 0);
 	}
-	50% {
-		text-shadow: 0 0 1.6vmin rgb(176, 2, 2);
+	20% {
+		text-shadow: 0 0 1.6vmin rgb(138, 0, 0);
 		color: rgb(151, 0, 0);
 	}
 	100% {
-		text-shadow: 0 0 1.2vmin rgb(255, 42, 42);
-		color: rgb(244, 0, 0);
+		text-shadow: 0 0 0.8vmin rgb(255, 42, 42);
+		color: rgb(224, 0, 0);
 	}
 }
 #output-area {
+	position: relative;
 	display: flex;
 	flex-wrap: wrap;
 	overflow: hidden;
 	background-color: rgb(207, 207, 207);
 	width: 94%;
-	padding: 5vmin 3%;
+	padding: 3vmin 3%;
+	padding-top: 1vmin;
 	height: 18vmin;
 	margin-bottom: 1.5vmin;
 	box-shadow: inset 0 0 2vmin 2vmin black, 0 4vmin 4vmin -1vmin black;
-	line-height: 11vmin;
-	font-size: 11vmin;
+	line-height: 10vmin;
+	font-size: 7vmin;
+}
+#output-area::before {
+	position: absolute;
+	content: '';
+	width: 100%;
+	height: 0.5vmin;
+	left: 0;
+	top: 50%;
+	background-color: black;
 }
 .output-word {
 	margin-right: 3vmin;
