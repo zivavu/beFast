@@ -9,7 +9,8 @@ export let randomWords = newWordsGenerator();
 startTypeChecking();
 function startTypeChecking() {
 	let correctWords = 0,
-		wrongWords = 0;
+		wrongWords = 0,
+		wordCount = 1;
 
 	textAreaNode.addEventListener('input', wpmTicking, { once: true });
 
@@ -20,28 +21,32 @@ function startTypeChecking() {
 			e.target.value[0] == currentWord[0]
 		) {
 			e.target.style.color = 'black';
-			outputArea.firstChild.style.color = 'green';
+			document.querySelector(
+				`#output-area :nth-child(${wordCount})`
+			).style.color = 'green';
 		} else {
 			e.target.style.color = 'red';
-			outputArea.firstChild.style.color = 'red';
+			document.querySelector(
+				`#output-area :nth-child(${wordCount})`
+			).style.color = 'red';
 		}
 	});
 	document.body.onkeydown = function (e) {
 		if (e.code == 'Space' || e.code == 'Enter') {
 			e.preventDefault();
 			if (
-				outputArea.firstChild.style.color == 'green' &&
+				document.querySelector(`#output-area :nth-child(${wordCount})`).style
+					.color == 'green' &&
 				textAreaNode.value.length == randomWords[0].length
 			) {
 				correctWords++;
 			} else animateWrongWord();
 
+			wordCount++;
 			randomWords = randomWords.slice(1);
 			textAreaNode.value = '';
 
 			if (!randomWords[0]) wpmTicking(false);
-			console.log(randomWords);
-			firstChildPop();
 			passCorectWords(correctWords);
 		}
 	};
