@@ -6,41 +6,41 @@ const title = document.getElementById('title');
 
 export let randomWords = newWordsGenerator();
 
-startTypeChecking();
 function startTypeChecking() {
 	let correctWords = 0,
 		wrongWords = 0,
-		wordCount = 1;
-
+		wordCount = 1,
+		isWordRight = false,
+		currentWordNode;
 	textAreaNode.addEventListener('input', wpmTicking, { once: true });
 
 	textAreaNode.addEventListener('input', (e) => {
 		let currentWord = randomWords[0];
+		currentWordNode = document.querySelector(
+			`#output-area :nth-child(${wordCount})`
+		);
 		if (
 			currentWord.match(e.target.value) &&
 			e.target.value[0] == currentWord[0]
 		) {
 			e.target.style.color = 'black';
-			document.querySelector(
-				`#output-area :nth-child(${wordCount})`
-			).style.color = 'green';
+			isWordRight = true;
+			currentWordNode.style.color = 'green';
 		} else {
 			e.target.style.color = 'red';
-			document.querySelector(
-				`#output-area :nth-child(${wordCount})`
-			).style.color = 'red';
+			isWordRight = false;
+			currentWordNode.style.color = 'red';
 		}
 	});
 	document.body.onkeydown = function (e) {
 		if (e.code == 'Space' || e.code == 'Enter') {
 			e.preventDefault();
-			if (
-				document.querySelector(`#output-area :nth-child(${wordCount})`).style
-					.color == 'green' &&
-				textAreaNode.value.length == randomWords[0].length
-			) {
+			if (isWordRight && textAreaNode.value.length == randomWords[0].length) {
 				correctWords++;
-			} else animateWrongWord();
+			} else {
+				animateWrongWord();
+				currentWordNode.style.color = 'red';
+			}
 
 			wordCount++;
 			randomWords = randomWords.slice(1);
@@ -51,10 +51,7 @@ function startTypeChecking() {
 		}
 	};
 }
-
-function firstChildPop() {
-	outputArea.removeChild(outputArea.firstChild);
-}
+startTypeChecking();
 
 function animateWrongWord() {
 	title.style.animation = 'titleFlash 0.5s linear';
