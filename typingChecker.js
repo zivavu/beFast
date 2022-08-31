@@ -44,7 +44,10 @@ function startTypeChecking() {
 				currentWordNode.style.color = 'red';
 			}
 
-			if (wordsInRow[wordsInRow.length - 1] == currentWordNode) {
+			if (
+				wordsInRow[wordsInRow.length - 1] == currentWordNode &&
+				randomWords.length > 5
+			) {
 				wordsInRow.forEach((word) => word.remove());
 				wordsInRow = getLastWordInLine();
 				wordCount = 0;
@@ -66,7 +69,7 @@ function animateWrongWord() {
 }
 
 function getLastWordInLine() {
-	let n = 2;
+	let n = 1;
 	let wordNodesArr = document.querySelector('#output-area').childNodes;
 	let wordsInRow = [];
 	let currentWord = wordNodesArr[n],
@@ -79,9 +82,8 @@ function getLastWordInLine() {
 		previousWord = wordNodesArr[n - 1];
 		previousRect = previousWord.getBoundingClientRect();
 		currentRect = currentWord.getBoundingClientRect();
-		wordsInRow.push(currentWord);
+		wordsInRow.push(previousWord);
 		n++;
 	}
-	console.log(wordsInRow);
 	return wordsInRow;
 }
