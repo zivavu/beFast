@@ -12,6 +12,8 @@ function startTypeChecking() {
 		wordCount = 1,
 		isWordRight = false,
 		currentWordNode;
+	let wordsInRow = getLastWordInLine();
+
 	textAreaNode.addEventListener('input', wpmTicking, { once: true });
 
 	textAreaNode.addEventListener('input', (e) => {
@@ -42,6 +44,11 @@ function startTypeChecking() {
 				currentWordNode.style.color = 'red';
 			}
 
+			if (wordsInRow[wordsInRow.length - 1] == currentWordNode) {
+				wordsInRow.forEach((word) => word.remove());
+				wordsInRow = getLastWordInLine();
+				wordCount = 0;
+			}
 			wordCount++;
 			randomWords = randomWords.slice(1);
 			textAreaNode.value = '';
@@ -56,4 +63,25 @@ startTypeChecking();
 function animateWrongWord() {
 	title.style.animation = 'titleFlash 0.5s linear';
 	setTimeout(() => (title.style.animation = ''), 500);
+}
+
+function getLastWordInLine() {
+	let n = 2;
+	let wordNodesArr = document.querySelector('#output-area').childNodes;
+	let wordsInRow = [];
+	let currentWord = wordNodesArr[n],
+		previousWord = wordNodesArr[n - 1];
+	let previousRect = previousWord.getBoundingClientRect(),
+		currentRect = currentWord.getBoundingClientRect();
+
+	while (wordNodesArr[n] && currentRect.right > previousRect.right) {
+		currentWord = wordNodesArr[n];
+		previousWord = wordNodesArr[n - 1];
+		previousRect = previousWord.getBoundingClientRect();
+		currentRect = currentWord.getBoundingClientRect();
+		wordsInRow.push(currentWord);
+		n++;
+	}
+	console.log(wordsInRow);
+	return wordsInRow;
 }
