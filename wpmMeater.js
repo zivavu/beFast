@@ -9,14 +9,14 @@ export function wpmTicking(run) {
 		clearInterval(wpmIntervalId);
 		return;
 	}
-	wpmIntervalId = setInterval(meterUpdate, 500);
-	setTimeout(() => (wpmPointer.style.visibility = 'visible'), 500);
+	wpmIntervalId = setInterval(meterUpdate, 250);
+	setTimeout(() => (wpmPointer.style.visibility = 'visible'), 250);
 }
 export function passCorectWords(counter) {
 	correctWords = counter;
 }
 export function meterUpdate() {
-	seconds += 0.5;
+	seconds += 0.25;
 	let wpm = Math.round((correctWords / seconds) * 60);
 	wpmPointer.style.left = `${wpm / 2}%`;
 	wpmDisplay.innerText = wpm;

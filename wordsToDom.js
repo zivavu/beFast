@@ -8,9 +8,9 @@ export function newWordsGenerator() {
 	resetPreviousWords();
 	let wordsFragment = document.createDocumentFragment();
 	let randomWords = [];
-	for (let i = 0; i < words.length; i++) {
+	for (let i = 0; i < 12; i++) {
 		let newWordSpan = document.createElement('span');
-		let newWordContent = words[Math.round(Math.random() * words.length - 1)];
+		let newWordContent = words[Math.ceil(Math.random() * (words.length - 1))];
 		randomWords.push(newWordContent);
 		newWordSpan.innerText = newWordContent;
 		newWordSpan.classList.add('output-word');
