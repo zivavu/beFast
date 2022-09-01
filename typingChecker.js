@@ -3,12 +3,16 @@ import { passCorectWords, wpmTicking } from './wpmMeater.js';
 const textAreaNode = document.getElementById('user-input');
 const outputArea = document.getElementById('output-area');
 const title = document.getElementById('title');
+const wpmDisplayNode = document.getElementById('wpm-display');
 
 export let randomWords = newWordsGenerator();
 
 function startTypeChecking() {
+	textAreaNode.focus();
 	outputArea.style.flexDirection = 'row';
 	outputArea.style.flexWrap = 'wrap';
+	outputArea.firstChild.style.textDecoration = 'underline';
+	outputArea.firstChild.style.textShadow = '0 0 0.5vmin grey';
 
 	let correctWords = 0,
 		wrongWords = 0,
@@ -46,6 +50,8 @@ function startTypeChecking() {
 		if (e.code == 'Space' || e.code == 'Enter') {
 			e.preventDefault();
 			currentWordNode.style.textDecoration = 'none';
+			currentWordNode.style.textShadow = '0 0 0.5vmin grey';
+
 			nextWordStyling(wordCount);
 			if (isWordRight && textAreaNode.value.length == randomWords[0].length) {
 				correctWords++;
@@ -106,7 +112,9 @@ function nextWordStyling(wordCount) {
 		`#output-area :nth-child(${wordCount + 1})`
 	);
 	nextWord.style.textDecoration = 'underline';
+	nextWord.style.textShadow = '0 0 0.5vmin grey';
 }
+
 function endScreen(corWords, wrongWords, corKeys, wrongKeys) {
 	wpmTicking(false);
 	outputArea.innerHTML = '';
@@ -114,7 +122,10 @@ function endScreen(corWords, wrongWords, corKeys, wrongKeys) {
 	let corWordsNode = document.createElement('span');
 	corWordsNode.innerText =
 		'Correct Words: ' + corWords + '/' + (corWords + wrongWords);
+
 	if (wrongWords == 0) corWordsNode.style.color = 'green';
+	else corWordsNode.style.color = 'black';
+
 	frag.appendChild(corWordsNode);
 	let accuracyNode = document.createElement('span');
 	accuracyNode.innerText =
@@ -129,4 +140,14 @@ function endScreen(corWords, wrongWords, corKeys, wrongKeys) {
 	outputArea.style.flexDirection = 'column';
 	outputArea.style.flexWrap = 'nowrap';
 	outputArea.appendChild(frag);
+
+	animateEndScreenWpmDisplay();
+}
+function animateEndScreenWpmDisplay() {
+	wpmDisplayNode.style.top = '-3vmin';
+	wpmDisplayNode.style.width = '15vmin';
+	wpmDisplayNode.style.height = '10vmin';
+	wpmDisplayNode.style.fontSize = '4vmin';
+	wpmDisplayNode.innerText += '\nWPM';
+	wpmDisplayNode.style.boxShadow = '0 0 2vmin 1vmin red';
 }
