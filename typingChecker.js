@@ -27,6 +27,7 @@ function startTypeChecking() {
 
 	textAreaNode.addEventListener('input', (e) => {
 		if (e.data == null) return;
+		e.target.value = e.target.value.toLowerCase();
 		let currentWord = randomWords[0];
 		currentWordNode = document.querySelector(
 			`#output-area :nth-child(${wordCount})`
@@ -59,6 +60,7 @@ function startTypeChecking() {
 				wrongWords++;
 				animateWrongWord();
 				currentWordNode.style.color = 'red';
+				wrongKeystrokes = wrongKeystrokesCount(randomWords[0], wrongKeystrokes);
 			}
 
 			if (
@@ -82,11 +84,6 @@ function startTypeChecking() {
 }
 startTypeChecking();
 
-function animateWrongWord() {
-	title.style.animation = 'titleFlash 0.5s linear';
-	setTimeout(() => (title.style.animation = ''), 500);
-}
-
 function getLastWordInLine() {
 	let n = 1;
 	let wordNodesArr = document.querySelector('#output-area').childNodes;
@@ -106,6 +103,11 @@ function getLastWordInLine() {
 	}
 	return wordsInRow;
 }
+
+function wrongKeystrokesCount(word, wrongKeystrokes) {
+	wrongKeystrokes += word.length - textAreaNode.value.length;
+	return wrongKeystrokes;
+}
 function nextWordStyling(wordCount) {
 	if (!randomWords[1]) return;
 	let nextWord = document.querySelector(
@@ -116,6 +118,8 @@ function nextWordStyling(wordCount) {
 }
 
 function endScreen(corWords, wrongWords, corKeys, wrongKeys) {
+	animateEndScreenWpmDisplay();
+
 	wpmTicking(false);
 	outputArea.innerHTML = '';
 	let frag = document.createDocumentFragment();
@@ -140,9 +144,8 @@ function endScreen(corWords, wrongWords, corKeys, wrongKeys) {
 	outputArea.style.flexDirection = 'column';
 	outputArea.style.flexWrap = 'nowrap';
 	outputArea.appendChild(frag);
-
-	animateEndScreenWpmDisplay();
 }
+
 function animateEndScreenWpmDisplay() {
 	wpmDisplayNode.style.top = '-3vmin';
 	wpmDisplayNode.style.width = '15vmin';
@@ -150,4 +153,9 @@ function animateEndScreenWpmDisplay() {
 	wpmDisplayNode.style.fontSize = '4vmin';
 	wpmDisplayNode.innerText += '\nWPM';
 	wpmDisplayNode.style.boxShadow = '0 0 2vmin 1vmin red';
+}
+
+function animateWrongWord() {
+	title.style.animation = 'titleFlash 0.5s linear';
+	setTimeout(() => (title.style.animation = ''), 500);
 }

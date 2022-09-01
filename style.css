@@ -118,3 +118,12 @@ header-container {
 	font-size: 3vmin;
 	border-radius: 3vmin;
 }
+#settings {
+	margin-left: 20vmin;
+	display: flex;
+	flex-direction: column;
+}
+
+.range {
+	width: 30%;
+}
