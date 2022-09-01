@@ -7,6 +7,7 @@ const wpmDisplayNode = document.getElementById('wpm-display');
 
 export let randomWords = newWordsGenerator();
 
+//setting up event listeners and prepariing the document
 function startTypeChecking() {
 	textAreaNode.focus();
 	outputArea.style.flexDirection = 'row';
@@ -22,6 +23,7 @@ function startTypeChecking() {
 		isWordRight = false,
 		currentWordNode;
 	let wordsInRow = getLastWordInLine();
+	currentWordNode = outputArea.firstChild;
 
 	textAreaNode.addEventListener('input', wpmTicking, { once: true });
 
@@ -43,11 +45,14 @@ function startTypeChecking() {
 		} else {
 			e.target.style.color = 'red';
 			isWordRight = false;
-			currentWordNode.style.color = 'red';
+			currentWordNode.style.color = 'darkred';
 			wrongKeystrokes++;
 		}
 	});
+
+	// New word handling
 	document.body.onkeydown = function (e) {
+		if (e.target.id != 'user-input') return;
 		if (e.code == 'Space' || e.code == 'Enter') {
 			e.preventDefault();
 			currentWordNode.style.textDecoration = 'none';
@@ -57,6 +62,7 @@ function startTypeChecking() {
 			if (isWordRight && textAreaNode.value.length == randomWords[0].length) {
 				correctWords++;
 			} else {
+				console.log('dafuck', currentWordNode);
 				wrongWords++;
 				animateWrongWord();
 				currentWordNode.style.color = 'red';
@@ -84,6 +90,7 @@ function startTypeChecking() {
 }
 startTypeChecking();
 
+//gets the last word from current words placement on that particular vievport and returns node with that word
 function getLastWordInLine() {
 	let n = 1;
 	let wordNodesArr = document.querySelector('#output-area').childNodes;
@@ -104,10 +111,12 @@ function getLastWordInLine() {
 	return wordsInRow;
 }
 
+//handles situations where word input is shorter then target word
 function wrongKeystrokesCount(word, wrongKeystrokes) {
 	wrongKeystrokes += word.length - textAreaNode.value.length;
 	return wrongKeystrokes;
 }
+
 function nextWordStyling(wordCount) {
 	if (!randomWords[1]) return;
 	let nextWord = document.querySelector(
