@@ -78,7 +78,7 @@ header-container {
 	border-radius: 2vmin;
 	padding: 4%;
 	width: 90%;
-	height: 10%;
+	height: 6vmin;
 	font-size: 8vmin;
 	border: none;
 	box-shadow: inset 0 0 2.5vmin 1.5vmin black;
@@ -87,7 +87,7 @@ header-container {
 	outline: none;
 }
 #wpm-range {
-	margin: 1% 5%;
+	margin: 5vmin 5%;
 	border-radius: 5vmin;
 	background-color: darkred;
 	width: 90%;
@@ -119,11 +119,33 @@ header-container {
 	border-radius: 3vmin;
 }
 #settings {
-	margin-left: 20vmin;
+	margin-right: 10vw;
+	margin-left: 10vw;
+	height: 20vmin;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+.column {
+	height: 20vmin;
+	width: 40%;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-around;
+}
+input[type='range'] {
+	width: 100%;
+	background: rgb(209, 0, 0);
+	box-shadow: inset 0 0 2vmin 0.5vmin black;
+	border-radius: 1vmin;
 }
 
-.range {
-	width: 30%;
+input[type='range']::-ms-fill-upper {
+	background: red;
+}
+input[type='range']::-ms-fill-lower {
+	background: red;
+}
+input[type='range']::-moz-range-track {
+	background: rgb(139, 0, 0);
 }

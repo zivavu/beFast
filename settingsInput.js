@@ -5,19 +5,26 @@ export let showWpmMeter, showWrongWordAnimation, timeLimit, wordsNumber;
 function settingsConstructior() {
 	let settingsSpan = document.createElement('span');
 	settingsSpan.id = 'settings';
-	settingsSpan.appendChild(createWordsRange());
-	settingsSpan.appendChild(createTimeLimitRange());
-	settingsSpan.appendChild(createShowMeterCheckbox());
-	settingsSpan.appendChild(createWrongWordAnimationCheckbox());
 
+	let columnOne = document.createElement('column');
+	columnOne.classList.add('column');
+	let columnTwo = document.createElement('column');
+	columnTwo.classList.add('column');
+
+	columnOne.appendChild(createWordsRange());
+	columnOne.appendChild(createShowMeterCheckbox());
+	columnTwo.appendChild(createTimeLimitRange());
+	columnTwo.appendChild(createWrongWordAnimationCheckbox());
+
+	settingsSpan.appendChild(columnOne);
+	settingsSpan.appendChild(columnTwo);
 	containerNode.appendChild(settingsSpan);
 }
 settingsConstructior();
-
 function createWordsRange() {
 	const wordsRange = document.createElement('input');
 	wordsRange.type = 'range';
-	wordsRange.classList.add('range');
+	wordsRange.id = 'word-range';
 	wordsRange.min = 0;
 	wordsRange.max = 150;
 	wordsRange.step = 1;
@@ -26,7 +33,7 @@ function createWordsRange() {
 
 function createTimeLimitRange() {
 	const timeLimitRange = document.createElement('input');
-	timeLimitRange.classList.add('range');
+	timeLimitRange.id = 'time-limit-range';
 	timeLimitRange.type = 'range';
 	timeLimitRange.min = 0;
 	timeLimitRange.max = 200;

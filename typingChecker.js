@@ -5,10 +5,12 @@ const outputArea = document.getElementById('output-area');
 const title = document.getElementById('title');
 const wpmDisplayNode = document.getElementById('wpm-display');
 
-export let randomWords = newWordsGenerator();
+export let randomWords;
 
 //setting up event listeners and prepariing the document
 function startTypeChecking() {
+	randomWords = newWordsGenerator();
+
 	textAreaNode.focus();
 	outputArea.style.flexDirection = 'row';
 	outputArea.style.flexWrap = 'wrap';
@@ -32,6 +34,11 @@ function startTypeChecking() {
 	// user letters input handling
 	textAreaNode.addEventListener('input', (e) => {
 		if (e.data == null) return;
+		//preventing empty input submitting
+		if (e.data == ' ') {
+			textAreaNode.value = '';
+			return;
+		}
 		e.target.value = e.target.value.toLowerCase();
 		let currentWord = randomWords[0];
 		if (
@@ -52,13 +59,15 @@ function startTypeChecking() {
 
 	// New word and backspace handling
 	document.body.onkeydown = function (e) {
-		if (e.target.id != 'user-input') return;
+		//preventing empty input submitting
+		if (e.target.id != 'user-input' || e.target.value == '') return;
 		if (e.code == 'Space' || e.code == 'Enter') {
 			e.preventDefault();
 
+			let previousWordNode = currentWordNode;
 			//reseting previousWord styling
-			currentWordNode.style.textDecoration = 'none';
-			currentWordNode.style.textShadow = 'none';
+			previousWordNode.style.textDecoration = 'none';
+			previousWordNode.style.textShadow = 'none';
 
 			nextWordStyling(wordCount);
 
@@ -72,7 +81,8 @@ function startTypeChecking() {
 				correctWords++;
 			} else {
 				wrongWords++;
-				animateTitleWhenWrongWord();
+				animateTitleWhenWordWrong();
+				previousWordNode.style.color = 'red';
 				wrongKeystrokes = wrongKeystrokesCount(randomWords[0], wrongKeystrokes);
 			}
 
@@ -82,8 +92,8 @@ function startTypeChecking() {
 				wordsInRow = getLastWordInLine();
 				wordCount = 1;
 			}
-			textAreaNode.value = '';
 
+			textAreaNode.value = '';
 			randomWords = randomWords.slice(1);
 
 			if (!randomWords[0]) {
@@ -178,7 +188,7 @@ function animateEndScreenWpmDisplay() {
 	wpmDisplayNode.style.boxShadow = '0 0 2vmin 1vmin red';
 }
 
-function animateTitleWhenWrongWord() {
+function animateTitleWhenWordWrong() {
 	title.style.animation = 'titleFlash 0.5s linear';
 	setTimeout(() => (title.style.animation = ''), 500);
 }
