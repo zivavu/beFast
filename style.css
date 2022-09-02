@@ -76,9 +76,9 @@ header-container {
 #user-input {
 	resize: none;
 	border-radius: 2vmin;
-	padding: 4%;
+	padding: 4vh 4%;
 	width: 90%;
-	height: 6vmin;
+	height: 6vh;
 	font-size: 8vmin;
 	border: none;
 	box-shadow: inset 0 0 2.5vmin 1.5vmin black;
@@ -132,20 +132,20 @@ header-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+	align-items: center;
+}
+.display {
+	font-size: 4vmin;
+	width: 70%;
+	line-height: 6vmin;
+	height: 6vmin;
+	text-align: center;
+	font-weight: 600;
+	color: rgb(255, 255, 255);
+	text-shadow: 0 0 2vmin rgb(145, 0, 0);
+	background-color: black;
+	border-radius: 3vmin;
 }
 input[type='range'] {
-	width: 100%;
-	background: rgb(209, 0, 0);
-	box-shadow: inset 0 0 2vmin 0.5vmin black;
-	border-radius: 1vmin;
-}
-
-input[type='range']::-ms-fill-upper {
-	background: red;
-}
-input[type='range']::-ms-fill-lower {
-	background: red;
-}
-input[type='range']::-moz-range-track {
-	background: rgb(139, 0, 0);
+	width: 70%;
 }
