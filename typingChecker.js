@@ -23,17 +23,17 @@ function startTypeChecking() {
 		isWordRight = false,
 		currentWordNode;
 	let wordsInRow = getLastWordInLine();
-	currentWordNode = outputArea.firstChild;
+	currentWordNode = document.querySelector(
+		`#output-area :nth-child(${wordCount})`
+	);
 
 	textAreaNode.addEventListener('input', wpmTicking, { once: true });
 
+	// user letters input handling
 	textAreaNode.addEventListener('input', (e) => {
 		if (e.data == null) return;
 		e.target.value = e.target.value.toLowerCase();
 		let currentWord = randomWords[0];
-		currentWordNode = document.querySelector(
-			`#output-area :nth-child(${wordCount})`
-		);
 		if (
 			currentWord.match(e.target.value) &&
 			e.target.value[0] == currentWord[0]
@@ -50,41 +50,55 @@ function startTypeChecking() {
 		}
 	});
 
-	// New word handling
+	// New word and backspace handling
 	document.body.onkeydown = function (e) {
 		if (e.target.id != 'user-input') return;
 		if (e.code == 'Space' || e.code == 'Enter') {
 			e.preventDefault();
+
+			//reseting previousWord styling
 			currentWordNode.style.textDecoration = 'none';
-			currentWordNode.style.textShadow = '0 0 0.5vmin grey';
+			currentWordNode.style.textShadow = 'none';
 
 			nextWordStyling(wordCount);
+
+			//changing currentWordNode to next one
+			wordCount++;
+			currentWordNode = document.querySelector(
+				`#output-area :nth-child(${wordCount})`
+			);
+
 			if (isWordRight && textAreaNode.value.length == randomWords[0].length) {
 				correctWords++;
 			} else {
-				console.log('dafuck', currentWordNode);
 				wrongWords++;
-				animateWrongWord();
-				currentWordNode.style.color = 'red';
+				animateTitleWhenWrongWord();
 				wrongKeystrokes = wrongKeystrokesCount(randomWords[0], wrongKeystrokes);
 			}
 
-			if (
-				wordsInRow[wordsInRow.length - 1] == currentWordNode &&
-				randomWords.length > 5
-			) {
+			// handling jump to new line
+			if (wordsInRow.length == wordCount - 1 && randomWords.length > 5) {
 				wordsInRow.forEach((word) => word.remove());
 				wordsInRow = getLastWordInLine();
-				wordCount = 0;
+				wordCount = 1;
 			}
-			wordCount++;
-			randomWords = randomWords.slice(1);
 			textAreaNode.value = '';
 
-			if (!randomWords[0])
+			randomWords = randomWords.slice(1);
+
+			if (!randomWords[0]) {
 				endScreen(correctWords, wrongWords, correctKeystrokes, wrongKeystrokes);
+			}
 
 			passCorectWords(correctWords);
+		}
+		if (e.code == 'Backspace') {
+			e.preventDefault();
+			e.target.value = e.target.value.slice(0, -1);
+			if (currentWordNode.innerText.match(e.target.value)) {
+				e.target.style.color = 'black';
+				currentWordNode.style.color = 'green';
+			}
 		}
 	};
 }
@@ -164,7 +178,7 @@ function animateEndScreenWpmDisplay() {
 	wpmDisplayNode.style.boxShadow = '0 0 2vmin 1vmin red';
 }
 
-function animateWrongWord() {
+function animateTitleWhenWrongWord() {
 	title.style.animation = 'titleFlash 0.5s linear';
 	setTimeout(() => (title.style.animation = ''), 500);
 }
