@@ -1,6 +1,6 @@
-import { wordsNumber, timeLimit } from './settingsInput.js';
+import { wordsNumber } from './settingsInput.js';
 import { newWordsGenerator } from './wordsToDom.js';
-import { passCorectWords, wpmTicking, meterUpdate } from './wpmMeater.js';
+import { passCorectWords, wpmTicking } from './wpmMeater.js';
 const textAreaNode = document.getElementById('user-input');
 const outputArea = document.getElementById('output-area');
 const title = document.getElementById('title');
@@ -12,10 +12,10 @@ export let randomWords;
 export function startTypeChecking() {
 	randomWords = newWordsGenerator(wordsNumber);
 
+	resetEndScreenWpmDisplay();
 	wpmTicking(false);
 
 	textAreaNode.focus();
-	resetEndScreenWpmDisplay();
 	outputArea.style.flexDirection = 'row';
 	outputArea.style.flexWrap = 'wrap';
 	outputArea.firstChild.style.textDecoration = 'underline';
@@ -26,10 +26,11 @@ export function startTypeChecking() {
 		wordCount = 1,
 		correctKeystrokes = 0,
 		wrongKeystrokes = 0,
-		isWordRight = false,
-		currentWordNode;
+		isWordRight = false;
+
 	let wordsInRow = getLastWordInLine();
-	currentWordNode = document.querySelector(
+
+	let currentWordNode = document.querySelector(
 		`#output-area :nth-child(${wordCount})`
 	);
 
@@ -37,6 +38,7 @@ export function startTypeChecking() {
 
 	// user letters input handling
 	textAreaNode.addEventListener('input', (e) => {
+		console.log('yup[');
 		if (e.data == null) return;
 		//preventing empty input submitting
 		if (e.data == ' ') {
@@ -117,8 +119,8 @@ export function startTypeChecking() {
 		}
 	};
 }
-
 startTypeChecking();
+
 //gets the last word from current words placement on that particular vievport and returns node with that word
 function getLastWordInLine() {
 	let n = 1;
@@ -146,6 +148,7 @@ function wrongKeystrokesCount(word, wrongKeystrokes) {
 	return wrongKeystrokes;
 }
 
+//adds styling to the word that user is/will be writing
 function nextWordStyling(wordCount) {
 	if (!randomWords[1]) return;
 	let nextWord = document.querySelector(
@@ -199,6 +202,7 @@ function resetEndScreenWpmDisplay() {
 	wpmDisplayNode.style.height = '4vmin';
 	wpmDisplayNode.style.fontSize = '3vmin';
 	wpmDisplayNode.style.boxShadow = '0 0 1vmin 0.5vmin rgb(0, 0, 0)';
+	wpmDisplayNode.innerText = wpmDisplayNode.innerText.slice(0, 3);
 }
 
 function animateTitleWhenWordWrong() {

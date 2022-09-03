@@ -1,9 +1,9 @@
 const wpmPointer = document.getElementById('wpm-pointer');
 const wpmDisplay = document.getElementById('wpm-display');
-
 let correctWords = 0;
 let seconds = 0;
 let wpmIntervalId;
+
 export function wpmTicking(run) {
 	if (run == false) {
 		seconds = 0;

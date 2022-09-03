@@ -3,8 +3,8 @@ const containerNode = document.getElementById('container');
 
 export let showWpmMeter,
 	showWrongWordAnimation,
-	timeLimit = 50,
-	wordsNumber = 60;
+	wordsNumber = 60,
+	timeLimit = 50;
 
 function settingsConstructior() {
 	let settingsSpan = document.createElement('span');
