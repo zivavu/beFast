@@ -6,6 +6,7 @@ let seconds = 0;
 let wpmIntervalId;
 export function wpmTicking(run) {
 	if (run == false) {
+		seconds = 0;
 		clearInterval(wpmIntervalId);
 		return;
 	}
@@ -18,6 +19,7 @@ export function passCorectWords(counter) {
 export function meterUpdate() {
 	seconds += 0.25;
 	let wpm = Math.round((correctWords / seconds) * 60);
-	wpmPointer.style.left = `${wpm / 2}%`;
+	if (wpm / 2 > 90) wpmPointer.style.left = '90%';
+	else wpmPointer.style.left = `${wpm / 2}%`;
 	wpmDisplay.innerText = wpm;
 }

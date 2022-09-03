@@ -1,5 +1,6 @@
+import { wordsNumber, timeLimit } from './settingsInput.js';
 import { newWordsGenerator } from './wordsToDom.js';
-import { passCorectWords, wpmTicking } from './wpmMeater.js';
+import { passCorectWords, wpmTicking, meterUpdate } from './wpmMeater.js';
 const textAreaNode = document.getElementById('user-input');
 const outputArea = document.getElementById('output-area');
 const title = document.getElementById('title');
@@ -8,10 +9,13 @@ const wpmDisplayNode = document.getElementById('wpm-display');
 export let randomWords;
 
 //setting up event listeners and prepariing the document
-function startTypeChecking() {
-	randomWords = newWordsGenerator();
+export function startTypeChecking() {
+	randomWords = newWordsGenerator(wordsNumber);
+
+	wpmTicking(false);
 
 	textAreaNode.focus();
+	resetEndScreenWpmDisplay();
 	outputArea.style.flexDirection = 'row';
 	outputArea.style.flexWrap = 'wrap';
 	outputArea.firstChild.style.textDecoration = 'underline';
@@ -77,7 +81,7 @@ function startTypeChecking() {
 				`#output-area :nth-child(${wordCount})`
 			);
 
-			if (isWordRight && textAreaNode.value.length == randomWords[0].length) {
+			if (isWordRight && textAreaNode.value == randomWords[0]) {
 				correctWords++;
 			} else {
 				wrongWords++;
@@ -106,14 +110,15 @@ function startTypeChecking() {
 			e.preventDefault();
 			e.target.value = e.target.value.slice(0, -1);
 			if (currentWordNode.innerText.match(e.target.value)) {
+				isWordRight = true;
 				e.target.style.color = 'black';
 				currentWordNode.style.color = 'green';
 			}
 		}
 	};
 }
-startTypeChecking();
 
+startTypeChecking();
 //gets the last word from current words placement on that particular vievport and returns node with that word
 function getLastWordInLine() {
 	let n = 1;
@@ -186,6 +191,14 @@ function animateEndScreenWpmDisplay() {
 	wpmDisplayNode.style.fontSize = '4vmin';
 	wpmDisplayNode.innerText += '\nWPM';
 	wpmDisplayNode.style.boxShadow = '0 0 2vmin 1vmin red';
+}
+
+function resetEndScreenWpmDisplay() {
+	wpmDisplayNode.style.top = '110%';
+	wpmDisplayNode.style.width = '6vmin';
+	wpmDisplayNode.style.height = '4vmin';
+	wpmDisplayNode.style.fontSize = '3vmin';
+	wpmDisplayNode.style.boxShadow = '0 0 1vmin 0.5vmin rgb(0, 0, 0)';
 }
 
 function animateTitleWhenWordWrong() {
