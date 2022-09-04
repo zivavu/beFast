@@ -175,7 +175,8 @@ export function endScreen() {
 	animateEndScreenWpmDisplay();
 	outputArea.innerHTML = '';
 
-	//disabling and clearing input text area
+	//disabling and clearing input text area, also some spaghetti to prevent full page reloading with ctrl + r
+	document.getElementById('word-range').focus();
 	textAreaNode.disabled = true;
 	textAreaNode.value = '';
 

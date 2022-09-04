@@ -164,3 +164,6 @@ header-container {
 input[type='range'] {
 	width: 70%;
 }
+#word-range:focus {
+	outline: none;
+}
