@@ -8,8 +8,20 @@ const wpmDisplayNode = document.getElementById('wpm-display');
 
 export let randomWords;
 
-//setting up event listeners and prepariing the document
+let correctWords = 0,
+	wrongWords = 0,
+	correctKeystrokes = 0,
+	wrongKeystrokes = 0,
+	isWordRight = false,
+	wordCount = 1,
+	currentKeyStroke = 0,
+	currentWordNode,
+	wordsInRow;
+
+//setting up input event listeners and preparing variables
 export function startTypeChecking() {
+	textAreaNode.removeEventListener('input', getUserInput);
+
 	randomWords = newWordsGenerator(wordsNumber);
 
 	resetEndScreenWpmDisplay();
@@ -21,100 +33,105 @@ export function startTypeChecking() {
 	outputArea.firstChild.style.textDecoration = 'underline';
 	outputArea.firstChild.style.textShadow = '0 0 0.5vmin grey';
 
-	let correctWords = 0,
-		wrongWords = 0,
-		wordCount = 1,
-		correctKeystrokes = 0,
-		wrongKeystrokes = 0,
-		isWordRight = false,
-		currentKeyStroke = 0;
+	correctWords = 0;
+	wrongWords = 0;
+	correctKeystrokes = 0;
+	wrongKeystrokes = 0;
+	isWordRight = false;
+	wordCount = 1;
+	currentKeyStroke = 0;
+	wordsInRow = getLastWordInLine();
 
-	let wordsInRow = getLastWordInLine();
-
-	let currentWordNode = document.querySelector(
+	currentWordNode = document.querySelector(
 		`#output-area :nth-child(${wordCount})`
 	);
 
 	textAreaNode.addEventListener('input', wpmTicking, { once: true });
 
 	// user letters input handling
-	textAreaNode.addEventListener('input', (e) => {
-		//preventing empty input submitting
-		if (e.data == null) return;
-		if (e.data == ' ') {
-			textAreaNode.value = '';
-			return;
-		}
-		currentKeyStroke = e.target.value.length - 1;
-		e.target.value = e.target.value.toLowerCase();
-		let currentWord = randomWords[0];
-
-		if (
-			currentWord.slice(0, currentKeyStroke + 1) == e.target.value &&
-			e.target.value.slice(currentKeyStroke) === currentWord[currentKeyStroke]
-		) {
-			e.target.style.color = 'black';
-			isWordRight = true;
-			currentWordNode.style.color = 'green';
-			correctKeystrokes++;
-		} else {
-			e.target.style.color = 'red';
-			isWordRight = false;
-			currentWordNode.style.color = 'darkred';
-			wrongKeystrokes++;
-		}
-		console.log(currentWord.slice(0, currentKeyStroke + 1));
-	});
-
-	// New word and backspace handling
-	document.body.onkeydown = function (e) {
-		//preventing empty input submitting
-		if (e.target.id != 'user-input' || e.target.value == '') return;
-		if (e.code == 'Space' || e.code == 'Enter') {
-			e.preventDefault();
-
-			let previousWordNode = currentWordNode;
-			//reseting previousWord styling
-			previousWordNode.style.textDecoration = 'none';
-			previousWordNode.style.textShadow = 'none';
-
-			nextWordStyling(wordCount);
-
-			//changing currentWordNode to next one
-			wordCount++;
-			currentWordNode = document.querySelector(
-				`#output-area :nth-child(${wordCount})`
-			);
-
-			if (isWordRight && textAreaNode.value == randomWords[0]) {
-				correctWords++;
-			} else {
-				wrongWords++;
-				animateTitleWhenWordWrong();
-				previousWordNode.style.color = 'red';
-				wrongKeystrokes = wrongKeystrokesCount(randomWords[0], wrongKeystrokes);
-			}
-
-			// handling jump to new line
-			if (wordsInRow.length == wordCount - 1 && randomWords.length > 5) {
-				wordsInRow.forEach((word) => word.remove());
-				wordsInRow = getLastWordInLine();
-				wordCount = 1;
-			}
-
-			currentKeyStroke = 0;
-			textAreaNode.value = '';
-			randomWords = randomWords.slice(1);
-
-			if (!randomWords[0]) {
-				endScreen(correctWords, wrongWords, correctKeystrokes, wrongKeystrokes);
-			}
-
-			passCorectWords(correctWords);
-		}
-	};
+	textAreaNode.addEventListener('input', getUserInput);
 }
 startTypeChecking();
+
+//handles user input and styling of output // used in event listener
+function getUserInput(e) {
+	//preventing input after end screen
+	if (!randomWords[0]) {
+		textAreaNode.value = '';
+		return;
+	}
+	//preventing empty input submitting
+	if (e.data == null) return;
+	if (e.data == ' ') {
+		textAreaNode.value = '';
+		return;
+	}
+	currentKeyStroke = e.target.value.length - 1;
+	e.target.value = e.target.value.toLowerCase();
+	let currentWord = randomWords[0];
+
+	if (
+		currentWord.slice(0, currentKeyStroke + 1) == e.target.value &&
+		e.target.value.slice(currentKeyStroke) === currentWord[currentKeyStroke]
+	) {
+		e.target.style.color = 'black';
+		isWordRight = true;
+		currentWordNode.style.color = 'green';
+		correctKeystrokes++;
+	} else {
+		e.target.style.color = 'red';
+		isWordRight = false;
+		currentWordNode.style.color = 'darkred';
+		wrongKeystrokes++;
+	}
+}
+
+// New word and backspace handling
+document.body.onkeydown = (e) => {
+	//preventing empty input submitting
+	if (e.target.id != 'user-input' || e.target.value == '') return;
+	if (e.code != 'Space' && e.code != 'Enter') return;
+	e.preventDefault();
+
+	let previousWordNode = currentWordNode;
+	//reseting previousWord styling
+	previousWordNode.style.textDecoration = 'none';
+	previousWordNode.style.textShadow = 'none';
+
+	nextWordStyling(wordCount);
+
+	//changing currentWordNode to next one
+	wordCount++;
+	currentWordNode = document.querySelector(
+		`#output-area :nth-child(${wordCount})`
+	);
+
+	if (isWordRight && textAreaNode.value == randomWords[0]) {
+		correctWords++;
+	} else {
+		wrongWords++;
+		animateTitleWhenWordWrong();
+		previousWordNode.style.color = 'red';
+		wrongKeystrokes = wrongKeystrokesCount(randomWords[0], wrongKeystrokes);
+	}
+
+	// handling jump to new line
+	if (wordsInRow.length == wordCount - 1 && randomWords.length > 5) {
+		wordsInRow.forEach((word) => word.remove());
+		wordsInRow = getLastWordInLine();
+		wordCount = 1;
+	}
+
+	currentKeyStroke = 0;
+	textAreaNode.value = '';
+	randomWords = randomWords.slice(1);
+
+	if (!randomWords[0]) {
+		endScreen();
+	}
+
+	passCorectWords(correctWords);
+};
 
 //gets the last word from current words placement on that particular vievport and returns node with that word
 function getLastWordInLine() {
@@ -153,15 +170,21 @@ function nextWordStyling(wordCount) {
 	nextWord.style.textShadow = '0 0 0.5vmin grey';
 }
 
-function endScreen(corWords, wrongWords, corKeys, wrongKeys) {
+export function endScreen() {
 	animateEndScreenWpmDisplay();
-
-	wpmTicking(false);
 	outputArea.innerHTML = '';
+
+	//getting carret out of the input textbox
+	document.getElementById('word-range').focus();
+
+	//stoping the wpm timer
+	wpmTicking(false);
+
+	//setting up the end screen elements
 	let frag = document.createDocumentFragment();
 	let corWordsNode = document.createElement('span');
 	corWordsNode.innerText =
-		'Correct Words: ' + corWords + '/' + (corWords + wrongWords);
+		'Correct Words: ' + correctWords + '/' + (correctWords + wrongWords);
 
 	if (wrongWords == 0) corWordsNode.style.color = 'green';
 	else corWordsNode.style.color = 'black';
@@ -170,11 +193,13 @@ function endScreen(corWords, wrongWords, corKeys, wrongKeys) {
 	let accuracyNode = document.createElement('span');
 	accuracyNode.innerText =
 		'Correct Keystrokes: ' +
-		corKeys +
+		correctKeystrokes +
 		'/' +
-		(corKeys + wrongKeys) +
+		(correctKeystrokes + wrongKeystrokes) +
 		'	Accuracy: ' +
-		Math.round((corKeys / (corKeys + wrongKeys)) * 100) +
+		Math.round(
+			(correctKeystrokes / (correctKeystrokes + wrongKeystrokes)) * 100
+		) +
 		'%';
 	frag.appendChild(accuracyNode);
 	outputArea.style.flexDirection = 'column';

@@ -1,3 +1,5 @@
+import { timeLimit } from './settingsInput.js';
+import { endScreen } from './typingChecker.js';
 const wpmPointer = document.getElementById('wpm-pointer');
 const wpmDisplay = document.getElementById('wpm-display');
 let correctWords = 0;
@@ -17,6 +19,10 @@ export function passCorectWords(counter) {
 	correctWords = counter;
 }
 export function meterUpdate() {
+	if (seconds >= timeLimit) {
+		endScreen();
+		return;
+	}
 	seconds += 0.25;
 	let wpm = Math.round((correctWords / seconds) * 60);
 	if (wpm / 2 > 90) wpmPointer.style.left = '90%';
