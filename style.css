@@ -120,12 +120,11 @@ header-container {
 	border-radius: 3vmin;
 }
 #settings {
-	margin-right: 10vw;
-	margin-left: 10vw;
+	margin: 0 10vw;
 	height: 15vh;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
+	justify-content: space-between;
 }
 .column {
 	height: 15vmin;
@@ -135,9 +134,17 @@ header-container {
 	justify-content: space-around;
 	align-items: center;
 }
+#time-counter-column {
+	width: 15%;
+	height: 10vh;
+}
+#time-display {
+	font-weight: 800;
+	text-align: center;
+}
 .display {
 	font-size: 4vmin;
-	width: 70%;
+	width: 90%;
 	line-height: 6vmin;
 	height: 6vmin;
 	text-align: center;
@@ -156,7 +163,4 @@ header-container {
 }
 input[type='range'] {
 	width: 70%;
-}
-#word-range:focus {
-	outline: none;
 }

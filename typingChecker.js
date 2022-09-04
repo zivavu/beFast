@@ -20,6 +20,7 @@ let correctWords = 0,
 
 //setting up input event listeners and preparing variables
 export function startTypeChecking() {
+	textAreaNode.disabled = false;
 	textAreaNode.removeEventListener('input', getUserInput);
 
 	randomWords = newWordsGenerator(wordsNumber);
@@ -86,7 +87,7 @@ function getUserInput(e) {
 	}
 }
 
-// New word and backspace handling
+// word submiting/spacebar handling
 document.body.onkeydown = (e) => {
 	//preventing empty input submitting
 	if (e.target.id != 'user-input' || e.target.value == '') return;
@@ -174,8 +175,9 @@ export function endScreen() {
 	animateEndScreenWpmDisplay();
 	outputArea.innerHTML = '';
 
-	//getting carret out of the input textbox
-	document.getElementById('word-range').focus();
+	//disabling and clearing input text area
+	textAreaNode.disabled = true;
+	textAreaNode.value = '';
 
 	//stoping the wpm timer
 	wpmTicking(false);

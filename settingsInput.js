@@ -1,10 +1,11 @@
 import { startTypeChecking } from './typingChecker.js';
 const containerNode = document.getElementById('container');
+const timeDisplay = document.createElement('span');
 
 export let showWpmMeter,
 	showWrongWordAnimation,
 	wordsNumber = 60,
-	timeLimit = 50;
+	timeLimit = Infinity;
 
 function settingsConstructior() {
 	let settingsSpan = document.createElement('span');
@@ -15,15 +16,19 @@ function settingsConstructior() {
 	let columnTwo = document.createElement('column');
 	columnTwo.classList.add('column');
 
+	let timeCounterColumn = document.createElement('column');
+	timeCounterColumn.classList.add('column');
+	timeCounterColumn.id = 'time-counter-column';
+	timeCounterColumn.appendChild(createTimeDisplayElement());
+
 	columnOne.appendChild(createWordRangeDisplay());
 	columnOne.appendChild(createWordsRange());
-	//columnOne.appendChild(createShowMeterCheckbox());
 
 	columnTwo.appendChild(createTimeLimitDisplay());
 	columnTwo.appendChild(createTimeLimitRange());
-	//columnTwo.appendChild(createWrongWordAnimationCheckbox());
 
 	settingsSpan.appendChild(columnOne);
+	settingsSpan.appendChild(timeCounterColumn);
 	settingsSpan.appendChild(columnTwo);
 	containerNode.appendChild(settingsSpan);
 }
@@ -78,12 +83,18 @@ function createTimeLimitDisplay() {
 function timeChange(e) {
 	timeLimit = e.target.value;
 	if (e.target.value == e.target.max) timeLimit = Infinity;
+	if (timeLimit != Infinity) createTimeDisplayElement();
 	timeLimitDisplayUpdate(timeLimit);
 }
 function timeLimitDisplayUpdate(timeLimit) {
 	const timeLimitDisplay = document.getElementById('time-limit-display');
-	if (timeLimit == Infinity) timeLimitDisplay.innerHTML = 'No Time Limit';
-	else timeLimitDisplay.innerText = `Time Limit: ${timeLimit}s`;
+	if (timeLimit == Infinity) {
+		timeLimitDisplay.innerHTML = 'No Time Limit';
+		timeDisplay.style.visibility = 'hidden';
+	} else {
+		timeLimitDisplay.innerText = `Time Limit: ${timeLimit}s`;
+		timeDisplay.style.visibility = 'visible';
+	}
 }
 
 function uprateWordsCount() {
@@ -97,16 +108,11 @@ window.onkeydown = (e) => {
 	}
 };
 
-// function createShowMeterCheckbox() {
-// 	const showMeterCheckbox = document.createElement('input');
-// 	showMeterCheckbox.type = 'checkbox';
-// 	showMeterCheckbox.checked = true;
-// 	return showMeterCheckbox;
-// }
-
-// function createWrongWordAnimationCheckbox() {
-// 	const wrongWordAnimationCheckbox = document.createElement('input');
-// 	wrongWordAnimationCheckbox.type = 'checkbox';
-// 	wrongWordAnimationCheckbox.checked = true;
-// 	return wrongWordAnimationCheckbox;
-// }
+function createTimeDisplayElement() {
+	if (timeLimit == Infinity) timeDisplay.style.visibility = 'hidden';
+	else timeDisplay.style.visibility = 'visible';
+	timeDisplay.innerText = timeLimit;
+	timeDisplay.id = 'time-display';
+	timeDisplay.classList.add('display');
+	return timeDisplay;
+}
