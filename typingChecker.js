@@ -26,7 +26,8 @@ export function startTypeChecking() {
 		wordCount = 1,
 		correctKeystrokes = 0,
 		wrongKeystrokes = 0,
-		isWordRight = false;
+		isWordRight = false,
+		currentKeyStroke = 0;
 
 	let wordsInRow = getLastWordInLine();
 
@@ -38,18 +39,19 @@ export function startTypeChecking() {
 
 	// user letters input handling
 	textAreaNode.addEventListener('input', (e) => {
-		console.log('yup[');
-		if (e.data == null) return;
 		//preventing empty input submitting
+		if (e.data == null) return;
 		if (e.data == ' ') {
 			textAreaNode.value = '';
 			return;
 		}
+		currentKeyStroke = e.target.value.length - 1;
 		e.target.value = e.target.value.toLowerCase();
 		let currentWord = randomWords[0];
+
 		if (
-			currentWord.match(e.target.value) &&
-			e.target.value[0] == currentWord[0]
+			currentWord.slice(0, currentKeyStroke + 1) == e.target.value &&
+			e.target.value.slice(currentKeyStroke) === currentWord[currentKeyStroke]
 		) {
 			e.target.style.color = 'black';
 			isWordRight = true;
@@ -61,6 +63,7 @@ export function startTypeChecking() {
 			currentWordNode.style.color = 'darkred';
 			wrongKeystrokes++;
 		}
+		console.log(currentWord.slice(0, currentKeyStroke + 1));
 	});
 
 	// New word and backspace handling
@@ -99,6 +102,7 @@ export function startTypeChecking() {
 				wordCount = 1;
 			}
 
+			currentKeyStroke = 0;
 			textAreaNode.value = '';
 			randomWords = randomWords.slice(1);
 
@@ -107,15 +111,6 @@ export function startTypeChecking() {
 			}
 
 			passCorectWords(correctWords);
-		}
-		if (e.code == 'Backspace') {
-			e.preventDefault();
-			e.target.value = e.target.value.slice(0, -1);
-			if (currentWordNode.innerText.match(e.target.value)) {
-				isWordRight = true;
-				e.target.style.color = 'black';
-				currentWordNode.style.color = 'green';
-			}
 		}
 	};
 }
