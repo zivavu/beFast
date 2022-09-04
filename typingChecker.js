@@ -56,14 +56,8 @@ startTypeChecking();
 
 //handles user input and styling of output // used in event listener
 function getUserInput(e) {
-	//preventing input after end screen
-	if (!randomWords[0]) {
-		textAreaNode.value = '';
-		return;
-	}
-	//preventing empty input submitting
-	if (e.data == null) return;
-	if (e.data == ' ') {
+	//preventing empty and after ending screen input submitting
+	if (!randomWords[0] || e.data == ' ') {
 		textAreaNode.value = '';
 		return;
 	}
