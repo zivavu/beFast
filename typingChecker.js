@@ -29,6 +29,7 @@ export function startTypeChecking() {
 	wpmTicking(false);
 
 	textAreaNode.focus();
+	outputArea.style.color = 'black';
 	outputArea.style.flexDirection = 'row';
 	outputArea.style.flexWrap = 'wrap';
 	outputArea.firstChild.style.textDecoration = 'underline';
@@ -210,7 +211,7 @@ function animateEndScreenWpmDisplay() {
 	wpmDisplayNode.style.height = '10vmin';
 	wpmDisplayNode.style.fontSize = '4vmin';
 	wpmDisplayNode.innerText += '\nWPM';
-	wpmDisplayNode.style.boxShadow = '0 0 2vmin 1vmin red';
+	wpmDisplayNode.style.boxShadow = '0 0 0.5vmin 0.5vmin darkred';
 }
 
 function resetEndScreenWpmDisplay() {

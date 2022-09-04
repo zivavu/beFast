@@ -10,12 +10,13 @@ let wpmUpdateMs = 125;
 
 export function wpmTicking(run) {
 	if (run == false) {
+		timeDisplay.innerText = timeLimit;
 		seconds = 0;
 		clearInterval(wpmIntervalId);
-		return;
+	} else {
+		wpmIntervalId = setInterval(meterUpdate, wpmUpdateMs);
+		setTimeout(() => (wpmPointer.style.visibility = 'visible'), wpmUpdateMs);
 	}
-	wpmIntervalId = setInterval(meterUpdate, wpmUpdateMs);
-	setTimeout(() => (wpmPointer.style.visibility = 'visible'), wpmUpdateMs);
 }
 export function passCorectWords(counter) {
 	correctWords = counter;
