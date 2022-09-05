@@ -27,13 +27,7 @@ export function startTypeChecking() {
 
 	resetEndScreenWpmDisplay();
 	wpmTicking(false);
-
-	textAreaNode.focus();
-	outputArea.style.color = 'black';
-	outputArea.style.flexDirection = 'row';
-	outputArea.style.flexWrap = 'wrap';
-	outputArea.firstChild.style.textDecoration = 'underline';
-	outputArea.firstChild.style.textShadow = '0 0 0.5vmin grey';
+	resetStyling();
 
 	correctWords = 0;
 	wrongWords = 0;
@@ -57,7 +51,7 @@ startTypeChecking();
 
 //handles user input and styling of output // used in event listener
 function getUserInput(e) {
-	//preventing empty and after ending screen input submitting
+	//preventing empty and after ending screen input
 	if (!randomWords[0] || e.data == ' ') {
 		textAreaNode.value = '';
 		return;
@@ -82,7 +76,7 @@ function getUserInput(e) {
 	}
 }
 
-// word submiting/spacebar handling
+// word submiting and style handling
 document.body.onkeydown = (e) => {
 	//preventing empty input submitting
 	if (e.target.id != 'user-input' || e.target.value == '') return;
@@ -107,7 +101,7 @@ document.body.onkeydown = (e) => {
 	} else {
 		wrongWords++;
 		animateTitleWhenWordWrong();
-		previousWordNode.style.color = 'red';
+		previousWordNode.style.color = 'darkred';
 		wrongKeystrokes = wrongKeystrokesCount(randomWords[0], wrongKeystrokes);
 	}
 
@@ -226,4 +220,14 @@ function resetEndScreenWpmDisplay() {
 function animateTitleWhenWordWrong() {
 	title.style.animation = 'titleFlash 0.5s linear';
 	setTimeout(() => (title.style.animation = ''), 500);
+}
+
+function resetStyling() {
+	textAreaNode.focus();
+	textAreaNode.style.color = 'black';
+	outputArea.style.color = 'black';
+	outputArea.style.flexDirection = 'row';
+	outputArea.style.flexWrap = 'wrap';
+	outputArea.firstChild.style.textDecoration = 'underline';
+	outputArea.firstChild.style.textShadow = '0 0 0.5vmin grey';
 }

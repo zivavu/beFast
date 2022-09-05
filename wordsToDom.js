@@ -1,3 +1,4 @@
+import { english, german, polish } from './languages.js';
 const outputArea = document.getElementById('output-area');
 const textAreaNode = document.getElementById('user-input');
 let words =
