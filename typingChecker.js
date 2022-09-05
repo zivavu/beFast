@@ -171,6 +171,8 @@ export function endScreen() {
 	textAreaNode.disabled = true;
 	textAreaNode.style.textAlign = 'center';
 	textAreaNode.value = 'Press Ctrl + R to restart';
+	textAreaNode.style.color = 'black';
+	document.getElementById('language-select').style.visibility = 'visible';
 
 	//stoping the wpm timer
 	wpmTicking(false);
