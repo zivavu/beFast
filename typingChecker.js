@@ -25,9 +25,9 @@ export function startTypeChecking() {
 
 	randomWords = newWordsGenerator(wordsNumber);
 
+	resetStyling();
 	resetEndScreenWpmDisplay();
 	wpmTicking(false);
-	resetStyling();
 
 	correctWords = 0;
 	wrongWords = 0;
@@ -166,8 +166,11 @@ export function endScreen() {
 
 	//disabling and clearing input text area, also some spaghetti to prevent full page reloading with ctrl + r
 	document.getElementById('word-range').focus();
+	textAreaNode.style.fontWeight = '600';
+	textAreaNode.style.fontSize = '3.5vh';
 	textAreaNode.disabled = true;
-	textAreaNode.value = '';
+	textAreaNode.style.textAlign = 'center';
+	textAreaNode.value = 'Press Ctrl + R to restart';
 
 	//stoping the wpm timer
 	wpmTicking(false);
@@ -224,7 +227,10 @@ function animateTitleWhenWordWrong() {
 
 function resetStyling() {
 	textAreaNode.focus();
+	textAreaNode.style.fontWeight = '';
+	textAreaNode.style.fontSize = '8vh';
 	textAreaNode.style.color = 'black';
+	textAreaNode.style.textAlign = 'left';
 	outputArea.style.color = 'black';
 	outputArea.style.flexDirection = 'row';
 	outputArea.style.flexWrap = 'wrap';

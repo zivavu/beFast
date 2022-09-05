@@ -5,7 +5,8 @@ const timeDisplay = document.createElement('span');
 export let showWpmMeter,
 	showWrongWordAnimation,
 	wordsNumber = 60,
-	timeLimit = Infinity;
+	timeLimit = Infinity,
+	language;
 
 //i have no idea why i added every element that way, it sounded cool at first i guess ):)
 function settingsConstructior() {
@@ -16,21 +17,22 @@ function settingsConstructior() {
 	columnOne.classList.add('column');
 	let columnTwo = document.createElement('column');
 	columnTwo.classList.add('column');
-
-	let timeCounterColumn = document.createElement('column');
-	timeCounterColumn.classList.add('column');
-	timeCounterColumn.id = 'time-counter-column';
-	timeCounterColumn.appendChild(createTimeDisplayElement());
+	let columnThree = document.createElement('column');
+	columnThree.classList.add('column');
 
 	columnOne.appendChild(createWordRangeDisplay());
 	columnOne.appendChild(createWordsRange());
 
-	columnTwo.appendChild(createTimeLimitDisplay());
-	columnTwo.appendChild(createTimeLimitRange());
+	columnTwo.id = 'time-counter-column';
+	columnTwo.appendChild(createTimeDisplayElement());
+	columnTwo.appendChild(createLanguageSelectElement());
+
+	columnThree.appendChild(createTimeLimitDisplay());
+	columnThree.appendChild(createTimeLimitRange());
 
 	settingsSpan.appendChild(columnOne);
-	settingsSpan.appendChild(timeCounterColumn);
 	settingsSpan.appendChild(columnTwo);
+	settingsSpan.appendChild(columnThree);
 	containerNode.appendChild(settingsSpan);
 }
 settingsConstructior();
@@ -102,6 +104,7 @@ function uprateWordsCount() {
 	startTypeChecking();
 }
 
+//preventing full reload so everything seems smother and i dont have to deal with storeing values
 window.onkeydown = (e) => {
 	if (e.key === 'r' && e.ctrlKey) {
 		e.preventDefault();
@@ -116,4 +119,17 @@ function createTimeDisplayElement() {
 	timeDisplay.id = 'time-display';
 	timeDisplay.classList.add('display');
 	return timeDisplay;
+}
+
+function createLanguageSelectElement() {
+	const languageSelect = document.createElement('select');
+	languageSelect.id = 'language-select';
+	const english = document.createElement('option');
+	english.innerText = 'English';
+	const polish = document.createElement('option');
+	polish.innerText = 'Polish';
+	const german = document.createElement('option');
+	german.innerText = 'German';
+	languageSelect.append(english, polish, german);
+	return languageSelect;
 }

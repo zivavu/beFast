@@ -1,9 +1,9 @@
 import { english, german, polish } from './languages.js';
+import { startTypeChecking } from './typingChecker.js';
 const outputArea = document.getElementById('output-area');
 const textAreaNode = document.getElementById('user-input');
-let words =
-	'się i w nie na z do to że a o jak ale po co tak za od go już jego jej czy przez tylko tego sobie jeszcze może ze kiedy pan ich dla by gdy teraz ja ten który nawet bardzo przed tu jednak pod coś tam wszystko przy więc nic bo nim żeby miał on być potem też jeśli bez nad gdzie lecz siebie nigdy ani właśnie sam u dobrze niż jakby aby ty oczy zawsze raz były no albo gdyby aż wtedy przecież ona drzwi jako chyba nagle wszyscy jeden czym kto sposób czas kilka dlaczego razem jutro';
-words = words.split(' ');
+const languageSelectElement = document.getElementById('language-select');
+let words = english.split(' ');
 
 export function newWordsGenerator(wordsToGenerate) {
 	resetPreviousWords();
@@ -23,4 +23,21 @@ export function newWordsGenerator(wordsToGenerate) {
 function resetPreviousWords() {
 	outputArea.innerHTML = '';
 	textAreaNode.value = '';
+}
+
+languageSelectElement.addEventListener('change', changeLanguage);
+
+function changeLanguage() {
+	switch (languageSelectElement.value) {
+		case 'English':
+			words = english.split(' ');
+			break;
+		case 'Polish':
+			words = polish.split(' ');
+			break;
+		case 'German':
+			words = german.split(' ');
+			break;
+	}
+	startTypeChecking();
 }

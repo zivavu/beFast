@@ -80,7 +80,7 @@ header-container {
 	padding: 4vh 4%;
 	width: 90%;
 	height: 6vh;
-	font-size: 8vmin;
+	font-size: 8vh;
 	border: none;
 	box-shadow: inset 0 0 2.5vmin 1.5vmin black;
 }
@@ -136,11 +136,33 @@ header-container {
 }
 #time-counter-column {
 	width: 15%;
-	height: 10vh;
+	height: 15vh;
 }
 #time-display {
 	font-weight: 800;
 	text-align: center;
+}
+#language-select {
+	width: 100%;
+	height: 3.6vmin;
+	font-size: 2vmin;
+	text-align: center;
+	font-weight: 700;
+	border: none;
+	box-shadow: 0 0 0.3vmin 0.5vmin rgb(63, 0, 0);
+	text-shadow: 0 0 2vmin rgb(207, 0, 0);
+	border-radius: 2vmin;
+	background-color: black;
+	color: white;
+}
+#language-select option {
+	text-align: center;
+	text-shadow: none;
+	font-size: 1.5vmin;
+	width: 100%;
+	top: 100%;
+	left: 0;
+	right: 0;
 }
 .display {
 	font-size: 4vmin;
