@@ -1,4 +1,4 @@
-import { english, german, polish } from './languages.js';
+import { english, french, german, polish } from './languages.js';
 import { startTypeChecking } from './typingChecker.js';
 const outputArea = document.getElementById('output-area');
 const textAreaNode = document.getElementById('user-input');
@@ -37,6 +37,9 @@ function changeLanguage() {
 			break;
 		case 'German':
 			words = german.split(' ');
+			break;
+		case 'French':
+			words = french.split(' ');
 			break;
 	}
 	startTypeChecking();

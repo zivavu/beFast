@@ -123,6 +123,8 @@ document.body.onkeydown = (e) => {
 	passCorectWords(correctWords);
 };
 
+onresize = () => (wordsInRow = getLastWordInLine());
+
 //gets the last word from current words placement on that particular vievport and returns node with that word
 function getLastWordInLine() {
 	let n = 1;

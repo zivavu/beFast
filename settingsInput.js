@@ -130,6 +130,8 @@ function createLanguageSelectElement() {
 	polish.innerText = 'Polish';
 	const german = document.createElement('option');
 	german.innerText = 'German';
-	languageSelect.append(english, polish, german);
+	const french = document.createElement('option');
+	french.innerText = 'French';
+	languageSelect.append(english, polish, german, french);
 	return languageSelect;
 }
