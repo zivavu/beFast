@@ -8,7 +8,6 @@ export let showWpmMeter,
 	timeLimit = Infinity,
 	language;
 
-//i have no idea why i added every element that way, it sounded cool at first i guess ):)
 function settingsConstructior() {
 	let settingsSpan = document.createElement('span');
 	settingsSpan.id = 'settings';
