@@ -82,7 +82,7 @@ header-container {
     height: 6vh;
     font-size: 8vh;
     border: 5px solid black;
-    box-shadow: inset 0 0 2.5vmin 1.5vmin black;
+    box-shadow: inset 0 0 2.5vmin 1.5vmin black, 0 0 2vmin 1vmin black;
 }
 #user-input:focus {
     outline: none;
@@ -149,7 +149,7 @@ header-container {
     text-align: center;
     font-weight: 700;
     border: none;
-    box-shadow: 0 0 0.3vmin 0.5vmin rgb(32, 0, 0);
+    box-shadow: 0 0 0.3vmin 0.5vmin rgb(32, 0, 0), 0 0 2vmin 1vmin black;
     border-radius: 1vmin;
     background-color: black;
     color: white;
@@ -174,7 +174,7 @@ header-container {
     border: 0.7vmin solid rgb(17, 0, 0);
     background-color: black;
     border-radius: 1vmin;
-    box-shadow: inset 0 0 0.7vmin 0.4vmin rgb(32, 0, 0);
+    box-shadow: inset 0 0 0.7vmin 0.4vmin rgb(32, 0, 0), 0 0 2vmin 1vmin black;
     user-select: none;
 }
 input[type='range'] {
